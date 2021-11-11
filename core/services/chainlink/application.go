@@ -160,6 +160,17 @@ func NewApplication(opts ApplicationOpts) (Application, error) {
 	eventBroadcaster := opts.EventBroadcaster
 	externalInitiatorManager := opts.ExternalInitiatorManager
 
+	if cfg.AutoPprofEnabled() {
+		globalLogger.Info("Nurse service (automatic pprof profiling) is enabled")
+		nurse := health.NewNurse(cfg, globalLogger)
+		err := nurse.Start()
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		globalLogger.Info("Nurse service (automatic pprof profiling) is disabled")
+	}
+
 	healthChecker := health.NewChecker()
 
 	telemetryIngressClient := synchronization.TelemetryIngressClient(&synchronization.NoopTelemetryIngressClient{})
