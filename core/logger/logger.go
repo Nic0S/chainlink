@@ -27,7 +27,11 @@ func init() {
 
 // Logger is the main interface of this package.
 // It implements uber/zap's SugaredLogger interface and adds conditional logging helpers.
-// TestLogger should be used in tests.
+//
+// Tips
+//  - TestLogger should be used in tests.
+//  - Critical level logs should only be used when user intervention is required.
+//  - Trace level logs are omitted unless compiled with the trace tag. For example: go test -tags trace ...
 type Logger interface {
 	// With creates a new Logger with the given arguments
 	With(args ...interface{}) Logger
@@ -44,6 +48,7 @@ type Logger interface {
 	// SetLogLevel changes the log level for this and all connected Loggers.
 	SetLogLevel(zapcore.Level)
 
+	Trace(args ...interface{})
 	Debug(args ...interface{})
 	Info(args ...interface{})
 	Warn(args ...interface{})
@@ -52,6 +57,7 @@ type Logger interface {
 	Panic(args ...interface{})
 	Fatal(args ...interface{})
 
+	Tracef(format string, values ...interface{})
 	Debugf(format string, values ...interface{})
 	Infof(format string, values ...interface{})
 	Warnf(format string, values ...interface{})
@@ -60,6 +66,7 @@ type Logger interface {
 	Panicf(format string, values ...interface{})
 	Fatalf(format string, values ...interface{})
 
+	Tracew(msg string, keysAndValues ...interface{})
 	Debugw(msg string, keysAndValues ...interface{})
 	Infow(msg string, keysAndValues ...interface{})
 	Warnw(msg string, keysAndValues ...interface{})
