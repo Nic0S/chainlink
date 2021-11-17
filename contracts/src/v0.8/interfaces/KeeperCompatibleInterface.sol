@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.0;
 
 interface KeeperCompatibleInterface {
@@ -10,7 +11,7 @@ interface KeeperCompatibleInterface {
    * cannotExecute modifier from KeeperBase to your implementation of this
    * method.
    * @param checkData specified in the upkeep registration so it is always the
-   * same for a registered upkeep. This can easilly be broken down into specific
+   * same for a registered upkeep. This can easily be broken down into specific
    * arguments using `abi.decode`, so multiple upkeeps can be registered on the
    * same contract and easily differentiated by the contract.
    * @return upkeepNeeded boolean to indicate whether the keeper should call
@@ -19,7 +20,9 @@ interface KeeperCompatibleInterface {
    * upkeep is needed. If you would like to encode data to decode later, try
    * `abi.encode`.
    */
-  function checkUpkeep(bytes calldata checkData) external returns (bool upkeepNeeded, bytes memory performData);
+  function checkUpkeep(bytes calldata checkData)
+  external
+  returns (bool upkeepNeeded, bytes memory performData);
 
   /**
    * @notice method that is actually executed by the keepers, via the registry.
